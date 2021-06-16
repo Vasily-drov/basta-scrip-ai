@@ -1,0 +1,36 @@
+u = input()
+q = list(u.split(' '))
+res =[]
+for word in q:
+    res.append(word2index[word.strip()])
+print(res)
+print(len(word2index))
+
+layer_1 = sigmoid(np.sum(weights_0_1[res],axis=0))
+layer_2 = sigmoid(np.dot(layer_1,weights_1_2))
+print('Скриптонит: %s Баста: %s' %(np.abs(layer_2),np.abs(1-layer_2)))
+print('')
+print('')
+print('_____________________________________________________')
+
+correct,total = (0,0)
+for i in range(len(input_dataset)-299,len(input_dataset)-298):  #2375,2384
+    x = input_dataset[i]
+    y = int(target_dataset[i])
+    layer_1 = sigmoid(np.sum(weights_0_1[x],axis=0))
+    layer_2 = sigmoid(np.dot(layer_1,weights_1_2))
+    #print('layer_2:   %s' %layer_2)
+    #print('x: %s' %x)
+    #print('target_dataset: %s' %y)
+    #if(np.abs(layer_2 - y) < 0.5):
+    print('Err points:   %s' %np.abs(layer_2 -y))
+    print('target : %s, string№: %s, Скрип: %s' %(y,i,np.abs(layer_2)))
+    res = ''
+    for s in x:
+         res += vocab[s] + ','
+    print(res)
+    correct += 1
+    total += 1
+    
+    print("Test Accuracy:" + str(correct / float(total)))
+    print('___________________________________________')
