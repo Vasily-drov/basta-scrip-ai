@@ -1,0 +1,51 @@
+import re, sys
+scriptonite = list()
+target_dataset = list()
+
+file1 = open('s_b_f.txt','r',encoding='utf-8')
+
+for f in file1:
+    if len(f) > 0:
+        scriptonite.append(f[:-2])
+        target_dataset.append(f[-2])
+file1.close()
+
+print(len(scriptonite))
+#print(len(target_dataset))
+
+tokens = list(map(lambda x:x.split(' '),scriptonite))
+vocab = set()
+for sent in tokens:
+    for word in sent:
+        if(len(word)>0):
+            opt = re.sub(r'[^\w\s]','', word.lower()) 
+            vocab.add(opt.rstrip())
+vocab = list(vocab)
+
+word2index = {}
+for i, word in enumerate(vocab):
+    word2index[word]=i
+
+#print('word2index: %s' %word2index)
+    
+input_dataset = list()
+for sent in tokens:
+    sent_indices = list()
+    for word in sent:
+        if word !='':
+            q = re.sub(r'[^\w\s]','', word.lower()) 
+            sent_indices.append(word2index[word])
+    input_dataset.append(list(set(sent_indices)))
+    
+    #print(sent_indices)
+    #print(vocab[3535], vocab[600], vocab[3746], vocab[26])
+
+
+print(input_dataset[0])
+print(len(input_dataset))
+#print(len(target_dataset))
+print(len(target_dataset))
+print(len(vocab))
+#print(vocab[641])
+#print(len(word2index))
+
